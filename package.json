@@ -1,7 +1,7 @@
 {
-  "name": "growi-plugin-webhook-button",
+  "name": "growi-plugin-script-template",
   "version": "1.0.0",
-  "description": "GROWI plugin to integrate a button to call a webhook.",
+  "description": "GROWI plugin template for script",
   "license": "MIT",
   "keywords": [
     "growi",
@@ -17,10 +17,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-innertext": "^1.1.5",
-    "@goofmint/growi-js": "1.1.5",
-    "unified": "^11.0.0",
-    "unist-util-visit": "^5.0.0",
-    "hastscript": "^8.0.0"
+    "@goofmint/growi-js": "1.1.5"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
