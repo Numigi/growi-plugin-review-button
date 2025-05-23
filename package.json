@@ -1,7 +1,7 @@
 {
-  "name": "growi-plugin-webhook-button",
+  "name": "growi-plugin-review-button",
   "version": "1.0.0",
-  "description": "GROWI plugin to integrate a button to call a webhook.",
+  "description": "GROWI plugin to integrate a button to trigger a document review.",
   "license": "MIT",
   "keywords": [
     "growi",

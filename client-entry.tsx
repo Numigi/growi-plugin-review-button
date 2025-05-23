@@ -1,25 +1,41 @@
-import React from 'react';
+import React from "react";
 
-import config from './package.json';
-import { webhookButton, remarkPlugin } from './src/WebhookButton';
-import { Options, Func, ViewOptions } from './types/utils';
+import config from "./package.json";
+import { reviewButton, remarkPlugin } from "./src/ReviewButton";
+import { Options, Func, ViewOptions } from "./types/utils";
 
-declare const growiFacade : {
+declare const growiFacade: {
   markdownRenderer?: {
     optionsGenerators: {
-      customGenerateViewOptions: (path: string, options: Options, toc: Func) => ViewOptions,
-      generateViewOptions: (path: string, options: Options, toc: Func) => ViewOptions,
-      generatePreviewOptions: (path: string, options: Options, toc: Func) => ViewOptions,
-      customGeneratePreviewOptions: (path: string, options: Options, toc: Func) => ViewOptions,
-    },
-  },
-  react: typeof React,
+      customGenerateViewOptions: (
+        path: string,
+        options: Options,
+        toc: Func
+      ) => ViewOptions;
+      generateViewOptions: (
+        path: string,
+        options: Options,
+        toc: Func
+      ) => ViewOptions;
+      generatePreviewOptions: (
+        path: string,
+        options: Options,
+        toc: Func
+      ) => ViewOptions;
+      customGeneratePreviewOptions: (
+        path: string,
+        options: Options,
+        toc: Func
+      ) => ViewOptions;
+    };
+  };
+  react: typeof React;
 };
 
 const addPlugin = (options: ViewOptions) => {
   const { a } = options.components;
   // replace
-  options.components.a = webhookButton(a);
+  options.components.a = reviewButton(a);
   options.remarkPlugins.push(remarkPlugin as any);
   return options;
 };
@@ -31,20 +47,24 @@ const activate = (): void => {
   const { optionsGenerators } = growiFacade.markdownRenderer;
   const originalCustomViewOptions = optionsGenerators.customGenerateViewOptions;
   optionsGenerators.customGenerateViewOptions = (...args) => {
-    const options = originalCustomViewOptions ? originalCustomViewOptions(...args) : optionsGenerators.generateViewOptions(...args);
+    const options = originalCustomViewOptions
+      ? originalCustomViewOptions(...args)
+      : optionsGenerators.generateViewOptions(...args);
     return addPlugin(options);
   };
 
   // For preview
-  const originalGeneratePreviewOptions = optionsGenerators.customGeneratePreviewOptions;
+  const originalGeneratePreviewOptions =
+    optionsGenerators.customGeneratePreviewOptions;
   optionsGenerators.customGeneratePreviewOptions = (...args) => {
-    const options = originalGeneratePreviewOptions ? originalGeneratePreviewOptions(...args) : optionsGenerators.generatePreviewOptions(...args);
+    const options = originalGeneratePreviewOptions
+      ? originalGeneratePreviewOptions(...args)
+      : optionsGenerators.generatePreviewOptions(...args);
     return addPlugin(options);
   };
 };
 
-const deactivate = (): void => {
-};
+const deactivate = (): void => {};
 
 // register activate
 if ((window as any).pluginActivators == null) {
