@@ -125,24 +125,49 @@ export const webhookButton = (
       if (type) {
         return (
           <>
-            <a
-              target="_blank"
-              href={`https://github.com/${params.repoOwner}/${
-                params.repo
-              }/pulls?q=is:pr label:${params.prLabel} head:${getPageId()}`}
-            >
-              <span className="badge text-bg-primary">Statut des {type}</span>
-            </a>
-            <br />
-            <br />
-            <button
-              className="btn btn-primary text-white"
-              disabled={buttonDisabled}
-              onClick={getWebhookData}
-              type="submit"
-            >
-              {type}
-            </button>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+              <div className="container-fluid">
+                <div className="dropdown">
+                  <button
+                    className="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {type}
+                  </button>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        disabled={buttonDisabled}
+                        onClick={getWebhookData}
+                        type="submit"
+                      >
+                        Demander {type}
+                      </button>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        target="_blank"
+                        href={`https://github.com/${params.repoOwner}/${
+                          params.repo
+                        }/pulls?q=is:pr label:${
+                          params.prLabel
+                        } head:${getPageId()}`}
+                      >
+                        Liste des {type}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
             {feedbackMessage && (
               <div className="alert alert-primary" role="alert">
                 <div
