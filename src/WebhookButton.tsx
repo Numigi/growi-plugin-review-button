@@ -129,9 +129,7 @@ export const webhookButton = (
               target="_blank"
               href={`https://github.com/${params.repoOwner}/${
                 params.repo
-              }/pulls?q=is:pr is:open label:${
-                params.prLabel
-              } head:${getPageId()}`}
+              }/pulls?q=is:pr label:${params.prLabel} head:${getPageId()}`}
             >
               <span className="badge text-bg-primary">Statut des {type}</span>
             </a>
