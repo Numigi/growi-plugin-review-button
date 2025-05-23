@@ -142,6 +142,7 @@ export const reviewButton = (
                   </button>
                   <ul
                     className="dropdown-menu"
+                    style={{ paddingLeft: "unset" }}
                     aria-labelledby="dropdownMenuButton1"
                   >
                     <li>
@@ -158,7 +159,7 @@ export const reviewButton = (
                       <a
                         className="dropdown-item"
                         target="_blank"
-                        style={{ textDecoration: "none" }}
+                        style={{ borderBottom: "none" }}
                         href={`https://github.com/${params.repoOwner}/${
                           params.repo
                         }/pulls?q=is:pr label:fonctionnel head:${getPageId()}`}
@@ -180,6 +181,7 @@ export const reviewButton = (
                   </button>
                   <ul
                     className="dropdown-menu"
+                    style={{ paddingLeft: "unset" }}
                     aria-labelledby="dropdownMenuButton1"
                   >
                     <li>
@@ -196,7 +198,7 @@ export const reviewButton = (
                       <a
                         className="dropdown-item"
                         target="_blank"
-                        style={{ textDecoration: "none" }}
+                        style={{ borderBottom: "none" }}
                         href={`https://github.com/${params.repoOwner}/${
                           params.repo
                         }/pulls?q=is:pr label:tech head:${getPageId()}`}
@@ -218,6 +220,7 @@ export const reviewButton = (
                   </button>
                   <ul
                     className="dropdown-menu"
+                    style={{ paddingLeft: "unset" }}
                     aria-labelledby="dropdownMenuButton1"
                   >
                     <li>
@@ -234,7 +237,7 @@ export const reviewButton = (
                       <a
                         className="dropdown-item"
                         target="_blank"
-                        style={{ textDecoration: "none" }}
+                        style={{ borderBottom: "none" }}
                         href={`https://github.com/${params.repoOwner}/${
                           params.repo
                         }/pulls?q=is:pr label:gestion head:${getPageId()}`}
