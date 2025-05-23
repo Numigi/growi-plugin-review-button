@@ -127,7 +127,7 @@ export const webhookButton = (
           <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
               <div className="container-fluid">
-                <div className="dropdown" style={{ paddingLeft: "unset" }}>
+                <div className="dropdown">
                   <button
                     className="btn btn-secondary dropdown-toggle"
                     type="button"
@@ -139,6 +139,7 @@ export const webhookButton = (
                   </button>
                   <ul
                     className="dropdown-menu"
+                    style={{ paddingLeft: "unset" }}
                     aria-labelledby="dropdownMenuButton1"
                   >
                     <li>
