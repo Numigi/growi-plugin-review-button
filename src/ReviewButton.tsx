@@ -14,7 +14,7 @@ type Webhook = {
   feedbackMessage: string;
 };
 
-export const webhookButton = (
+export const reviewButton = (
   Tag: React.FunctionComponent<any>
 ): React.FunctionComponent<any> => {
   return ({ children, ...props }) => {
@@ -26,15 +26,15 @@ export const webhookButton = (
       );
       const [buttonDisabled, setButtonDisabled] = useState(false);
       const { node } = props;
-      const { type, ...params } = JSON.parse(node.properties.title);
+      const { webhookUrl, ...params } = JSON.parse(node.properties.title);
       const handleClick = () => {
         setButtonDisabled(true);
       };
 
-      if (!params.webhookButton) {
+      if (!params.reviewButton) {
         return <Tag {...props}>{children}</Tag>;
       }
-      if (!params.webhookUrl) {
+      if (!webhookUrl) {
         return (
           <>
             <div className="alert alert-danger" role="alert">
@@ -80,7 +80,7 @@ export const webhookButton = (
         return pageId;
       };
 
-      const getPageData = async (pageId: string) => {
+      const getPageData = async (pageId: string, type: string) => {
         const page = await growi.page({ pageId });
         const pageData = {
           type,
@@ -101,11 +101,11 @@ export const webhookButton = (
         return pageData;
       };
 
-      const getWebhookData = async () => {
+      const getWebhookData = async (type: string) => {
         // Disables the button to prevent conflicts.
         // The client would have to refresh the document to use the button again.
         handleClick();
-        const pageData = await getPageData(getPageId());
+        const pageData = await getPageData(getPageId(), type);
         const webhookOptions = {
           method: "POST",
           headers: {
@@ -115,18 +115,21 @@ export const webhookButton = (
           body: JSON.stringify(pageData),
         };
 
-        const url = params.webhookUrl;
+        const url = webhookUrl;
         const response = await fetch(url, webhookOptions);
         const json = (await response.json()) as Webhook;
 
         setFeedbackMessage(json);
       };
 
-      if (type) {
+      if (webhookUrl) {
         return (
           <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-              <div className="container-fluid">
+              <div
+                className="container-fluid"
+                style={{ justifyContent: "flex-start", gap: "5px" }}
+              >
                 <div className="dropdown">
                   <button
                     className="btn btn-secondary dropdown-toggle"
@@ -135,18 +138,17 @@ export const webhookButton = (
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    {type}
+                    Révision fonctionnelle
                   </button>
                   <ul
                     className="dropdown-menu"
-                    style={{ paddingLeft: "unset" }}
                     aria-labelledby="dropdownMenuButton1"
                   >
                     <li>
                       <button
                         className="dropdown-item"
                         disabled={buttonDisabled}
-                        onClick={getWebhookData}
+                        onClick={() => getWebhookData("fonctionnel")}
                         type="submit"
                       >
                         Demander une révision
@@ -156,12 +158,86 @@ export const webhookButton = (
                       <a
                         className="dropdown-item"
                         target="_blank"
+                        style={{ textDecoration: "none" }}
                         href={`https://github.com/${params.repoOwner}/${
                           params.repo
-                        }/pulls?q=is:pr label:${
-                          params.prLabel
-                        } head:${getPageId()}`}
-                        style={{ borderBottom: "none" }}
+                        }/pulls?q=is:pr label:fonctionnel head:${getPageId()}`}
+                      >
+                        Voir les révisions
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="dropdown">
+                  <button
+                    className="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Révision tech
+                  </button>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        disabled={buttonDisabled}
+                        onClick={() => getWebhookData("tech")}
+                        type="submit"
+                      >
+                        Demander une révision
+                      </button>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        target="_blank"
+                        style={{ textDecoration: "none" }}
+                        href={`https://github.com/${params.repoOwner}/${
+                          params.repo
+                        }/pulls?q=is:pr label:tech head:${getPageId()}`}
+                      >
+                        Voir les révisions
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="dropdown">
+                  <button
+                    className="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Révision gestion
+                  </button>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        disabled={buttonDisabled}
+                        onClick={() => getWebhookData("gestion")}
+                        type="submit"
+                      >
+                        Demander une révision
+                      </button>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        target="_blank"
+                        style={{ textDecoration: "none" }}
+                        href={`https://github.com/${params.repoOwner}/${
+                          params.repo
+                        }/pulls?q=is:pr label:gestion head:${getPageId()}`}
                       >
                         Voir les révisions
                       </a>
@@ -210,7 +286,7 @@ export const remarkPlugin: Plugin = () => {
   return (tree: Node) => {
     return visit(tree, "containerDirective", (node: Node) => {
       const n = node as unknown as GrowiNode;
-      if (n.name !== "webhookButton") return;
+      if (n.name !== "reviewButton") return;
       const data = n.data || (n.data = {});
       // Render your component
       const { value } = n.children[0] || { value: "" };
@@ -218,7 +294,7 @@ export const remarkPlugin: Plugin = () => {
       data.hChildren = [{ type: "text", value }]; // Children
       // Set properties
       data.hProperties = {
-        title: JSON.stringify({ ...n.attributes, ...{ webhookButton: true } }), // Pass to attributes to the component
+        title: JSON.stringify({ ...n.attributes, ...{ reviewButton: true } }), // Pass to attributes to the component
       };
     });
   };
