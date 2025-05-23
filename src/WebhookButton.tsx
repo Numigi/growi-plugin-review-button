@@ -160,6 +160,7 @@ export const webhookButton = (
                         }/pulls?q=is:pr label:${
                           params.prLabel
                         } head:${getPageId()}`}
+                        style={{ textDecoration: "none" }}
                       >
                         Liste des {type}
                       </a>
