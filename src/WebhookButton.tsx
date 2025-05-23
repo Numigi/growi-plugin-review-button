@@ -148,7 +148,7 @@ export const webhookButton = (
                         onClick={getWebhookData}
                         type="submit"
                       >
-                        Demander {type}
+                        Demander une révision
                       </button>
                     </li>
                     <li>
@@ -160,9 +160,9 @@ export const webhookButton = (
                         }/pulls?q=is:pr label:${
                           params.prLabel
                         } head:${getPageId()}`}
-                        style={{ textDecoration: "none" }}
+                        style={{ borderBottom: "none" }}
                       >
-                        Liste des {type}
+                        Voir les révisions
                       </a>
                     </li>
                   </ul>
