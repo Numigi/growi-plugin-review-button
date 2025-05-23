@@ -125,12 +125,9 @@ export const webhookButton = (
       if (type) {
         return (
           <>
-            <nav
-              className="navbar navbar-expand-lg navbar-light bg-light"
-              style={{ paddingLeft: "unset" }}
-            >
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
               <div className="container-fluid">
-                <div className="dropdown">
+                <div className="dropdown" style={{ paddingLeft: "unset" }}>
                   <button
                     className="btn btn-secondary dropdown-toggle"
                     type="button"
